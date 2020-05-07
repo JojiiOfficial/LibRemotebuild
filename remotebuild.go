@@ -5,8 +5,8 @@ type LibRB struct {
 	Config *RequestConfig
 }
 
-// NewLibDM create new libDM "class"
-func NewLibDM(config *RequestConfig) *LibRB {
+// NewLibRB create new libDM "class"
+func NewLibRB(config *RequestConfig) *LibRB {
 	return &LibRB{
 		Config: config,
 	}

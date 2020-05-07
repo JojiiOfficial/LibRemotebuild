@@ -33,8 +33,7 @@ const (
 
 // LoginResponse response for login
 type LoginResponse struct {
-	Token     string `json:"token"`
-	Namespace string `json:"ns"`
+	Token string `json:"token"`
 }
 
 // RestRequestResponse the response of a rest call
@@ -53,4 +52,24 @@ type StringResponse struct {
 // StringSliceResponse response containing only one string slice
 type StringSliceResponse struct {
 	Slice []string `json:"slice"`
+}
+
+// AddJobResponse response for adding a job
+type AddJobResponse struct {
+	ID       uint `json:"id"`
+	Position int  `json:"pos"`
+}
+
+// JobInfo info of job
+type JobInfo struct {
+	ID         uint       `json:"id"`
+	Position   uint       `json:"pos"`
+	BuildType  JobType    `json:"jobtype"`
+	UploadType UploadType `json:"uploadtype"`
+	Status     JobState   `json:"state"`
+}
+
+// ListJobsResponse list of queued jobs
+type ListJobsResponse struct {
+	Jobs []JobInfo `json:"jobs"`
 }

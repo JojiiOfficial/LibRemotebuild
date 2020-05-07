@@ -50,6 +50,11 @@ const (
 	EPUser     Endpoint = "/user"
 	EPLogin    Endpoint = EPUser + "/login"
 	EPRegister Endpoint = EPUser + "/register"
+
+	// Jobs
+	EPJob    Endpoint = "/job"
+	EPJobAdd Endpoint = EPJob + "/create"
+	EPJobs   Endpoint = EPJob + "s"
 )
 
 // RequestConfig configurations for requests
@@ -87,6 +92,13 @@ type CredentialsRequest struct {
 	MachineID string `json:"mid,omitempty"`
 	Username  string `json:"username"`
 	Password  string `json:"pass"`
+}
+
+// AddJobRequest request for creating a new job
+type AddJobRequest struct {
+	Type       JobType           `json:"buildtype"`
+	Args       map[string]string `json:"args"`
+	UploadType UploadType        `json:"uploadtype"`
 }
 
 // RequestType type of request

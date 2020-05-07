@@ -37,3 +37,20 @@ func (librb LibRB) ListJobs() (*ListJobsResponse, error) {
 
 	return &response, nil
 }
+
+// CancelJob cancel a running or queued job
+func (librb LibRB) CancelJob(jobID uint) error {
+	// Do http request
+	resp, err := librb.NewRequest(EPJobCancel, CancelJobRequest{
+		JobID: jobID,
+	}).WithAuthFromConfig().
+		WithMethod(POST).
+		Do(nil)
+
+	// Return new error on ... error
+	if err != nil || resp.Status == ResponseError {
+		return NewErrorFromResponse(resp, err)
+	}
+
+	return nil
+}

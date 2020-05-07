@@ -52,9 +52,10 @@ const (
 	EPRegister Endpoint = EPUser + "/register"
 
 	// Jobs
-	EPJob    Endpoint = "/job"
-	EPJobAdd Endpoint = EPJob + "/create"
-	EPJobs   Endpoint = EPJob + "s"
+	EPJob       Endpoint = "/job"
+	EPJobAdd    Endpoint = EPJob + "/create"
+	EPJobCancel Endpoint = EPJob + "/cancel"
+	EPJobs      Endpoint = EPJob + "s"
 )
 
 // RequestConfig configurations for requests
@@ -99,6 +100,11 @@ type AddJobRequest struct {
 	Type       JobType           `json:"buildtype"`
 	Args       map[string]string `json:"args"`
 	UploadType UploadType        `json:"uploadtype"`
+}
+
+// CancelJobRequest cancel a job
+type CancelJobRequest struct {
+	JobID uint `json:"id"`
 }
 
 // RequestType type of request

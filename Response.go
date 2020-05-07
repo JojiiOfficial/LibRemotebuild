@@ -2,6 +2,7 @@ package libremotebuild
 
 import (
 	"net/http"
+	"time"
 )
 
 // ResponseStatus the status of response
@@ -62,11 +63,12 @@ type AddJobResponse struct {
 
 // JobInfo info of job
 type JobInfo struct {
-	ID         uint       `json:"id"`
-	Position   uint       `json:"pos"`
-	BuildType  JobType    `json:"jobtype"`
-	UploadType UploadType `json:"uploadtype"`
-	Status     JobState   `json:"state"`
+	ID           uint       `json:"id"`
+	Position     uint       `json:"pos"`
+	BuildType    JobType    `json:"jobtype"`
+	UploadType   UploadType `json:"uploadtype"`
+	Status       JobState   `json:"state"`
+	RunningSince time.Time  `json:"rs,omitempty"`
 }
 
 // ListJobsResponse list of queued jobs

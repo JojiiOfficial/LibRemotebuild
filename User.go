@@ -29,7 +29,7 @@ func (librb LibRB) Register(username, password string) (*RestRequestResponse, er
 		Password: password,
 	}).Do(nil)
 
-	if err != nil {
+	if err != nil || resp.Status == ResponseError {
 		return resp, NewErrorFromResponse(resp, err)
 	}
 

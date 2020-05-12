@@ -64,6 +64,7 @@ type AddJobResponse struct {
 // JobInfo info of job
 type JobInfo struct {
 	ID           uint       `json:"id"`
+	Info         string     `json:"info"`
 	Position     uint       `json:"pos"`
 	BuildType    JobType    `json:"jobtype"`
 	UploadType   UploadType `json:"uploadtype"`

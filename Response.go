@@ -43,6 +43,7 @@ type RestRequestResponse struct {
 	Status   ResponseStatus
 	Message  string
 	Headers  *http.Header
+	Response *http.Response
 }
 
 // StringResponse response containing only one string

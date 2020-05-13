@@ -54,6 +54,7 @@ const (
 	// Jobs
 	EPJob       Endpoint = "/job"
 	EPJobAdd    Endpoint = EPJob + "/create"
+	EPJobLogs   Endpoint = EPJob + "/logs"
 	EPJobCancel Endpoint = EPJob + "/cancel"
 	EPJobs      Endpoint = EPJob + "s"
 )
@@ -86,6 +87,7 @@ type Request struct {
 	Authorization *Authorization
 	Headers       map[string]string
 	BenchChan     chan time.Time
+	CloseBody     bool
 }
 
 // CredentialsRequest request containing credentials
@@ -102,9 +104,15 @@ type AddJobRequest struct {
 	UploadType UploadType        `json:"uploadtype"`
 }
 
-// CancelJobRequest cancel a job
-type CancelJobRequest struct {
+// JobRequest cancel a job
+type JobRequest struct {
 	JobID uint `json:"id"`
+}
+
+// JobLogsRequest cancel a job
+type JobLogsRequest struct {
+	JobID uint      `json:"id"`
+	Since time.Time `json:"since"`
 }
 
 // RequestType type of request
@@ -125,7 +133,14 @@ func (limdm *LibRB) NewRequest(endpoint Endpoint, payload interface{}) *Request 
 		Config:      limdm.Config,
 		Method:      POST,
 		ContentType: JSONContentType,
+		CloseBody:   true,
 	}
+}
+
+// WithNoBodyClose don't close body after request
+func (request *Request) WithNoBodyClose() *Request {
+	request.CloseBody = false
+	return request
 }
 
 // WithMethod use a different method
@@ -293,7 +308,12 @@ func (request Request) Do(retVar interface{}) (*RestRequestResponse, error) {
 		}
 	}
 
-	resp.Body.Close()
+	// Set response
+	response.Response = resp
+
+	if request.CloseBody {
+		resp.Body.Close()
+	}
 
 	return response, nil
 }

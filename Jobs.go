@@ -1,5 +1,10 @@
 package libremotebuild
 
+import (
+	"io"
+	"time"
+)
+
 // AddJob a job
 func (librb LibRB) AddJob(jobType JobType, uploadType UploadType, args map[string]string) (*AddJobResponse, error) {
 	var response AddJobResponse
@@ -41,7 +46,7 @@ func (librb LibRB) ListJobs() (*ListJobsResponse, error) {
 // CancelJob cancel a running or queued job
 func (librb LibRB) CancelJob(jobID uint) error {
 	// Do http request
-	resp, err := librb.NewRequest(EPJobCancel, CancelJobRequest{
+	resp, err := librb.NewRequest(EPJobCancel, JobRequest{
 		JobID: jobID,
 	}).WithAuthFromConfig().
 		WithMethod(POST).
@@ -53,4 +58,23 @@ func (librb LibRB) CancelJob(jobID uint) error {
 	}
 
 	return nil
+}
+
+// Logs for a job
+func (librb LibRB) Logs(jobID uint, since time.Time) (io.ReadCloser, error) {
+	// Do http request
+	resp, err := librb.NewRequest(EPJobLogs, JobLogsRequest{
+		Since: since,
+		JobID: jobID,
+	}).WithAuthFromConfig().
+		WithNoBodyClose().
+		WithMethod(GET).
+		Do(nil)
+
+	// Return new error on ... error
+	if err != nil || resp.Status == ResponseError {
+		return nil, NewErrorFromResponse(resp, err)
+	}
+
+	return resp.Response.Body, nil
 }

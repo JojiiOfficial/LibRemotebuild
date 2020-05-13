@@ -2,6 +2,7 @@ package libremotebuild
 
 import (
 	"io"
+	"sort"
 	"time"
 )
 
@@ -39,6 +40,9 @@ func (librb LibRB) ListJobs() (*ListJobsResponse, error) {
 	if err != nil || resp.Status == ResponseError {
 		return nil, NewErrorFromResponse(resp, err)
 	}
+
+	// Sort jobs
+	sort.Sort(SortByJob(response.Jobs))
 
 	return &response, nil
 }

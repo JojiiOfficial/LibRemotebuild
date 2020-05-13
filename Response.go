@@ -77,3 +77,10 @@ type JobInfo struct {
 type ListJobsResponse struct {
 	Jobs []JobInfo `json:"jobs"`
 }
+
+// SortByJob sort jobs
+type SortByJob []JobInfo
+
+func (a SortByJob) Len() int           { return len(a) }
+func (a SortByJob) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
+func (a SortByJob) Less(i, j int) bool { return a[i].ID < a[j].ID }

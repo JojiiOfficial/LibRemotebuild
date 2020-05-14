@@ -1,7 +1,6 @@
 package libremotebuild
 
 import (
-	"io"
 	"sort"
 	"time"
 )
@@ -65,7 +64,7 @@ func (librb LibRB) CancelJob(jobID uint) error {
 }
 
 // Logs for a job
-func (librb LibRB) Logs(jobID uint, since time.Time) (io.ReadCloser, error) {
+func (librb LibRB) Logs(jobID uint, since time.Time) (*RestRequestResponse, error) {
 	// Do http request
 	resp, err := librb.NewRequest(EPJobLogs, JobLogsRequest{
 		Since: since,
@@ -80,5 +79,5 @@ func (librb LibRB) Logs(jobID uint, since time.Time) (io.ReadCloser, error) {
 		return nil, NewErrorFromResponse(resp, err)
 	}
 
-	return resp.Response.Body, nil
+	return resp, nil
 }

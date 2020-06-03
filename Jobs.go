@@ -6,14 +6,15 @@ import (
 )
 
 // AddJob a job
-func (librb LibRB) AddJob(jobType JobType, uploadType UploadType, args map[string]string) (*AddJobResponse, error) {
+func (librb LibRB) AddJob(jobType JobType, uploadType UploadType, args map[string]string, disableCcache bool) (*AddJobResponse, error) {
 	var response AddJobResponse
 
 	// Do http request
 	resp, err := librb.NewRequest(EPJobAdd, AddJobRequest{
-		Type:       jobType,
-		UploadType: uploadType,
-		Args:       args,
+		Type:          jobType,
+		UploadType:    uploadType,
+		Args:          args,
+		DisableCcache: disableCcache,
 	}).WithAuthFromConfig().
 		WithMethod(PUT).
 		Do(&response)

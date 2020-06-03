@@ -10,6 +10,7 @@ const (
 	JobFailed
 	JobRunning
 	JobDone
+	JobPaused
 )
 
 func (js JobState) String() string {
@@ -23,7 +24,9 @@ func (js JobState) String() string {
 	case JobRunning:
 		return "Running"
 	case JobDone:
-		return "done"
+		return "Done"
+	case JobPaused:
+		return "Paused"
 	}
 
 	return "<invaild>"

@@ -57,6 +57,11 @@ const (
 	EPJobLogs   Endpoint = EPJob + "/logs"
 	EPJobCancel Endpoint = EPJob + "/cancel"
 	EPJobs      Endpoint = EPJob + "s"
+
+	// Ccache
+	EPCcache      Endpoint = "/ccache"
+	EPCcacheClear Endpoint = EPCcache + "/clear"
+	EPCcacheStats Endpoint = EPCcache + "/stats"
 )
 
 // RequestConfig configurations for requests
@@ -99,9 +104,10 @@ type CredentialsRequest struct {
 
 // AddJobRequest request for creating a new job
 type AddJobRequest struct {
-	Type       JobType           `json:"buildtype"`
-	Args       map[string]string `json:"args"`
-	UploadType UploadType        `json:"uploadtype"`
+	Type          JobType           `json:"buildtype"`
+	Args          map[string]string `json:"args"`
+	UploadType    UploadType        `json:"uploadtype"`
+	DisableCcache bool              `json:"disableccache"`
 }
 
 // JobRequest cancel a job

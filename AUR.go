@@ -25,11 +25,15 @@ func (aurBuild *AURBuild) WithoutCcache() *AURBuild {
 }
 
 // WithDmanager use dmnager for uplaod
-func (aurBuild *AURBuild) WithDmanager(username, token, host string) {
+func (aurBuild *AURBuild) WithDmanager(username, token, host, namespace string) {
 	aurBuild.UploadType = DataManagerUploadType
 	aurBuild.args[DMToken] = token
 	aurBuild.args[DMUser] = username
 	aurBuild.args[DMHost] = host
+
+	if len(namespace) > 0 {
+		aurBuild.args[DMNamespace] = namespace
+	}
 }
 
 // CreateJob build AUR package

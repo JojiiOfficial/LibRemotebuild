@@ -41,6 +41,8 @@ type Config struct {
 	User      userConfig
 
 	Server serverConfig
+
+	DataManager dataManager
 }
 
 type userConfig struct {
@@ -54,6 +56,10 @@ type userConfig struct {
 type serverConfig struct {
 	URL        string `required:"true"`
 	IgnoreCert bool
+}
+
+type dataManager struct {
+	Namespaces map[libremotebuild.JobType]string
 }
 
 // GetDefaultConfigFile return path of default config
@@ -72,6 +78,11 @@ func getDefaultConfig() Config {
 			DisableKeyring: false,
 			Keyring:        DefaultKeyring,
 			ForceVerify:    false,
+		},
+		DataManager: dataManager{
+			Namespaces: map[libremotebuild.JobType]string{
+				libremotebuild.JobAUR: "AURbuild",
+			},
 		},
 	}
 }
@@ -360,4 +371,9 @@ func getDataPath() string {
 		log.Fatalln("DataPath-name already taken by a file!")
 	}
 	return path
+}
+
+// GetNamspace return namespace to use for a given job
+func (config *Config) GetNamspace(jobType libremotebuild.JobType) string {
+	return config.DataManager.Namespaces[jobType]
 }

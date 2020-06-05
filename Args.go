@@ -10,6 +10,9 @@ const (
 
 	// DMHost Dmanager host
 	DMHost = "DM_HOST"
+
+	// DMHost Dmanager host
+	DMNamespace = "DM_NAMESPACE"
 )
 
 // AUR keys

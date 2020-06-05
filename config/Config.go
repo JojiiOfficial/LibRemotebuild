@@ -59,7 +59,7 @@ type serverConfig struct {
 }
 
 type dataManager struct {
-	Namespaces map[libremotebuild.JobType]string
+	Namespaces map[string]string
 }
 
 // GetDefaultConfigFile return path of default config
@@ -80,8 +80,8 @@ func getDefaultConfig() Config {
 			ForceVerify:    false,
 		},
 		DataManager: dataManager{
-			Namespaces: map[libremotebuild.JobType]string{
-				libremotebuild.JobAUR: "AURbuild",
+			Namespaces: map[string]string{
+				libremotebuild.JobAUR.String(): "AURbuild",
 			},
 		},
 	}
@@ -375,5 +375,5 @@ func getDataPath() string {
 
 // GetNamspace return namespace to use for a given job
 func (config *Config) GetNamspace(jobType libremotebuild.JobType) string {
-	return config.DataManager.Namespaces[jobType]
+	return config.DataManager.Namespaces[jobType.String()]
 }

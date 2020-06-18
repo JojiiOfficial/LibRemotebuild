@@ -177,7 +177,12 @@ func (config *Config) IsLoggedIn() bool {
 		return false
 	}
 
-	token, err := keyring.Get(KeyringServiceName, config.User.Username)
+	var token string
+	var err error
+
+	if !config.User.DisableKeyring {
+		token, err = keyring.Get(KeyringServiceName, config.User.Username)
+	}
 
 	// If no keyring was found, use unencrypted token
 	if config.User.DisableKeyring || err != nil {
@@ -228,9 +233,12 @@ func (config *Config) InsertUser(user, token string) {
 // Tries to save token in a keyring, if not supported
 // save it unencrypted
 func (config *Config) SetToken(token string) error {
-	// Save to keyring. Exit return on success
-	if err := keyring.Set(KeyringServiceName, config.User.Username, token); err == nil {
-		return nil
+	var err error
+	if !config.User.DisableKeyring {
+		// Save to keyring. Exit return on success
+		if err = keyring.Set(KeyringServiceName, config.User.Username, token); err == nil {
+			return nil
+		}
 	}
 
 	fmt.Printf("Your platform doesn't have support for a keyring. Refer to https://github.com/JojiiOfficial/RemoteBuildClient#keyring\n--> !!! Your token will be saved %s !!! <--\n", color.HiRedString("UNENCRYPTED"))
@@ -249,7 +257,12 @@ func (config *Config) MustSetToken(token string) {
 
 // GetToken returns user token
 func (config *Config) GetToken() (string, error) {
-	token, err := keyring.Get(KeyringServiceName, config.User.Username)
+	var token string
+	var err error
+
+	if !config.User.DisableKeyring {
+		token, err = keyring.Get(KeyringServiceName, config.User.Username)
+	}
 
 	if config.User.DisableKeyring || err != nil {
 		// Return unlock error if sessiontoken is empty,
@@ -273,6 +286,10 @@ func (config *Config) GetToken() (string, error) {
 
 // ClearKeyring removes session from keyring
 func (config *Config) ClearKeyring(username string) error {
+	if config.User.DisableKeyring {
+		return nil
+	}
+
 	if len(username) == 0 {
 		username = config.User.Username
 	}

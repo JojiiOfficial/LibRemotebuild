@@ -48,20 +48,24 @@ const (
 
 	// User
 	EPUser     Endpoint = "/user"
-	EPLogin    Endpoint = EPUser + "/login"
-	EPRegister Endpoint = EPUser + "/register"
+	EPLogin             = EPUser + "/login"
+	EPRegister          = EPUser + "/register"
 
 	// Jobs
 	EPJob       Endpoint = "/job"
-	EPJobAdd    Endpoint = EPJob + "/create"
-	EPJobLogs   Endpoint = EPJob + "/logs"
-	EPJobCancel Endpoint = EPJob + "/cancel"
-	EPJobs      Endpoint = EPJob + "s"
+	EPJobAdd             = EPJob + "/create"
+	EPJobLogs            = EPJob + "/logs"
+	EPJobCancel          = EPJob + "/cancel"
+	EPJobs               = EPJob + "s"
+
+	EPJobState  = EPJob + "/state"
+	EPJobPause  = EPJobState + "/pause"
+	EPJobResume = EPJobState + "/resume"
 
 	// Ccache
 	EPCcache      Endpoint = "/ccache"
-	EPCcacheClear Endpoint = EPCcache + "/clear"
-	EPCcacheStats Endpoint = EPCcache + "/stats"
+	EPCcacheClear          = EPCcache + "/clear"
+	EPCcacheStats          = EPCcache + "/stats"
 )
 
 // RequestConfig configurations for requests

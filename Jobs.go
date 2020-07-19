@@ -1,6 +1,7 @@
 package libremotebuild
 
 import (
+	"fmt"
 	"sort"
 	"time"
 )
@@ -45,6 +46,34 @@ func (librb LibRB) ListJobs() (*ListJobsResponse, error) {
 	sort.Sort(SortByJob(response.Jobs))
 
 	return &response, nil
+}
+
+// SetJobState pauses a running or queued job
+func (librb LibRB) SetJobState(jobID uint, state JobState) error {
+	switch state {
+	case JobPaused, JobRunning:
+	default:
+		return fmt.Errorf("Invalid state to set job to")
+	}
+
+	endpoint := EPJobPause
+	if state == JobRunning {
+		endpoint = EPJobResume
+	}
+
+	// Do http request
+	resp, err := librb.NewRequest(endpoint, JobRequest{
+		JobID: jobID,
+	}).WithAuthFromConfig().
+		WithMethod(PUT).
+		Do(nil)
+
+	// Return new error on ... error
+	if err != nil || resp.Status == ResponseError {
+		return NewErrorFromResponse(resp, err)
+	}
+
+	return nil
 }
 
 // CancelJob cancel a running or queued job

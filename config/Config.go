@@ -36,9 +36,10 @@ var (
 
 // Config Configuration structure
 type Config struct {
-	File      string
-	MachineID string
-	User      userConfig
+	File            string
+	MachineID       string
+	User            userConfig
+	DefaultUploadTo string
 
 	Server serverConfig
 

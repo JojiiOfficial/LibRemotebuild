@@ -125,6 +125,11 @@ type JobLogsRequest struct {
 	Since time.Time `json:"since"`
 }
 
+// ListJobsRequest request for listing jobs
+type ListJobsRequest struct {
+	Limit int `json:"l"`
+}
+
 // RequestType type of request
 type RequestType uint8
 

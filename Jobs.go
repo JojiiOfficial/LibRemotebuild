@@ -29,11 +29,13 @@ func (librb LibRB) AddJob(jobType JobType, uploadType UploadType, args map[strin
 }
 
 // ListJobs list running jobs
-func (librb LibRB) ListJobs() (*ListJobsResponse, error) {
+func (librb LibRB) ListJobs(limit int) (*ListJobsResponse, error) {
 	var response ListJobsResponse
 
 	// Do http request
-	resp, err := librb.NewRequest(EPJobs, nil).WithAuthFromConfig().
+	resp, err := librb.NewRequest(EPJobs, ListJobsRequest{
+		Limit: limit,
+	}).WithAuthFromConfig().
 		WithMethod(GET).
 		Do(&response)
 

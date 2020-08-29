@@ -95,6 +95,25 @@ func (librb LibRB) CancelJob(jobID uint) error {
 	return nil
 }
 
+// JobInfo gets information for a job
+func (librb LibRB) JobInfo(jobID uint) (*JobInfo, error) {
+	var response JobInfo
+
+	// Do http request
+	resp, err := librb.NewRequest(EPJobInfo, JobRequest{
+		JobID: jobID,
+	}).WithAuthFromConfig().
+		WithMethod(GET).
+		Do(&response)
+
+	// Return new error on ... error
+	if err != nil || resp.Status == ResponseError {
+		return nil, NewErrorFromResponse(resp, err)
+	}
+
+	return &response, nil
+}
+
 // Logs for a job
 func (librb LibRB) Logs(jobID uint, since time.Time) (*RestRequestResponse, error) {
 	// Do http request

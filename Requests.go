@@ -56,6 +56,7 @@ const (
 	EPJobAdd             = EPJob + "/create"
 	EPJobLogs            = EPJob + "/logs"
 	EPJobCancel          = EPJob + "/cancel"
+	EPJobInfo            = EPJob + "/info"
 	EPJobs               = EPJob + "s"
 
 	EPJobState  = EPJob + "/state"

@@ -9,6 +9,7 @@ type UploadType uint8
 const (
 	NoUploadType UploadType = iota
 	DataManagerUploadType
+	LocalStorage
 )
 
 func (ut UploadType) String() string {
@@ -17,6 +18,8 @@ func (ut UploadType) String() string {
 		return "no upload"
 	case DataManagerUploadType:
 		return "DataManager"
+	case LocalStorage:
+		return "LocalStorage"
 	}
 
 	return "<invalid>"
@@ -29,6 +32,8 @@ func ParseUploadType(s string) UploadType {
 	switch s {
 	case strings.ToLower(DataManagerUploadType.String()):
 		return DataManagerUploadType
+	case strings.ToLower(LocalStorage.String()):
+		return LocalStorage
 	}
 
 	return NoUploadType

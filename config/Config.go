@@ -9,7 +9,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	libremotebuild "github.com/JojiiOfficial/LibRemotebuild"
+	libremotebuild "github.com/RemoteBuild/LibRemotebuild"
 	"github.com/JojiiOfficial/configService"
 	"github.com/JojiiOfficial/gaw"
 	"github.com/denisbrodbeck/machineid"
